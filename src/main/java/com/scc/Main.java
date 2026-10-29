@@ -10,6 +10,7 @@ public class Main {
     // Use a single shared Scanner for everything
     private static final Scanner sc = new Scanner(System.in);
     private static final UserDAO USER_DAO = new UserDAO();
+    private static Object system;
 
     public static void main(String[] args) {
 
@@ -55,6 +56,66 @@ public class Main {
                                     System.out.println("[2] Register Driver");
                                     System.out.println("[3] Register Route");
                                     System.out.println("[4] Register User");
+
+                                    System.out.println("Select an option: ");
+                                    String choiceee = sc.nextLine().trim();
+
+                                    switch (choiceee){
+                                        case "1":
+                                            System.out.print("Enter Vehicle ID: ");
+                                            String vId = sc.nextLine();
+                                            if(vId.length() <= 3){
+                                                System.out.print("Error: Must have been the wind.");
+                                            }
+                                            System.out.print("Enter Plate Number: ");
+                                            String plate = sc.nextLine();
+                                            if(plate.length() <= 3){
+                                                System.out.println("Error: Must have been the wind.");
+                                            }
+                                            System.out.print("Enter Passenger capacity: ");
+                                            int cap = Integer.parseInt(sc.nextLine());
+
+                                            if (cap <= 0) {
+                                                System.out.println("Invalid Passenger Capacity.");
+                                                break;
+                                            }
+                                            System.out.print("Enter Vehicle type: ");
+                                            String type = sc.nextLine();
+
+                                            if(type.length() <= 0){
+                                                System.out.println("Error: Must have been the wind.");
+                                            }
+
+                                            initializeDAO InitializeDAO = new initializeDAO();
+
+
+                                            if(InitializeDAO.registerVehicle(vId, plate, cap, type, "IDLE")){
+                                                System.out.println("Vehicle registered successfully.");
+                                                break;
+                                            }
+
+                                            try {
+
+
+
+
+
+
+                                                boolean savedToDb = initializeDAO.registerVehicle(vId, plate, cap, type,"IDLE");
+
+                                                if (savedToDb) {
+                                                    System.out.println("Vehicle registered and saved to SQLite successfully!");
+                                                } else {
+                                                    System.out.println("Warning: Added locally, but failed to save to database (ID or Plate might already exist in SQLite).");
+                                                }
+                                            }
+                                            catch (NumberFormatException e) {
+                                                System.out.println("Error: Capacity must be a valid integer.");
+                                            }
+
+                                            break;
+
+                                    }
                                     break;
                                 case "0":
                                     System.out.println("Logging out...");

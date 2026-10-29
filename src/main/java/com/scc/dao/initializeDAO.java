@@ -5,8 +5,8 @@ import java.sql.*;
 public class initializeDAO {
 
 
-    public static boolean registerVehicle(String id, String plateNumber, int capacity, String status) {
-        String sql = "INSERT INTO vehicle (id, plate_number, capacity, status) VALUES (?, ?, ?, 'IDLE')";
+    public static boolean registerVehicle(String id, String plateNumber, int capacity, String type, String status) {
+        String sql = "INSERT INTO vehicle (id, plate_number, capacity, type,  status) VALUES (?, ?, ?, ?,'IDLE')";
 
         try (Connection conn = DatabaseConnection.getVehicleConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -14,6 +14,7 @@ public class initializeDAO {
             pstmt.setString(1, id);
             pstmt.setString(2, plateNumber);
             pstmt.setInt(3, capacity);
+            pstmt.setString(4, type);
 
 
             pstmt.executeUpdate();
