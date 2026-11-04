@@ -9,18 +9,21 @@ import java.util.Scanner;
 public class Main {
     // Use a single shared Scanner for everything
     private static final Scanner sc = new Scanner(System.in);
+    private static final adminDAO ADMIN_DAO = new adminDAO();
     private static final UserDAO USER_DAO = new UserDAO();
+    private static final initializeDAO ROUTE_DAO = new initializeDAO();
     private static Object system;
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
 
         while (true) {
             System.out.println("\n================================");
             System.out.println("           FLEETIFY");
             System.out.println("================================");
-            System.out.println("1. LOGIN");
-            System.out.println("2. REGISTER");
-            System.out.println("3. EXIT");
+            System.out.println("1. LOGIN ADMIN");
+            System.out.println("2. LOGIN STAFF");
+            System.out.println("3. REGISTER");
+            System.out.println("4. EXIT");
             System.out.print("Enter option: ");
 
             String choice = sc.nextLine().trim();
@@ -28,14 +31,14 @@ public class Main {
             switch (choice) {
                 case "1":
                     System.out.println("\n================================");
-                    System.out.println("            LOGIN");
+                    System.out.println("            LOGIN ADMIN");
                     System.out.println("================================");
                     System.out.print("Enter username: ");
                     String loginuser = sc.nextLine();
                     System.out.print("Enter Password: ");
                     String loginPass = sc.nextLine();
 
-                    if (USER_DAO.login(loginuser, loginPass)) {
+                    if (ADMIN_DAO.login(loginuser, loginPass)) {
                         System.out.println("Redirecting to Dashboard.");
 
                         dashboardLoop: while (true) {
@@ -89,11 +92,10 @@ public class Main {
                                             initializeDAO InitializeDAO = new initializeDAO();
 
 
-                                            if(InitializeDAO.registerVehicle(vId, plate, cap, type, "IDLE")){
+                                            if(initializeDAO.registerVehicle(vId, plate, cap, type, "IDLE")){
                                                 System.out.println("Vehicle registered successfully.");
                                                 break;
                                             }
-
                                             try {
 
 
@@ -114,8 +116,64 @@ public class Main {
                                             }
 
                                             break;
+                                        case "2":
+                                            System.out.print("Enter Driver ID: ");
+                                            String dId = sc.nextLine();
+                                            if(dId.length() <= 3){
+                                                System.out.println("Error: Invalid driver ID: ");
+                                                break;
+                                            }
+                                            System.out.print("Enter Driver name: ");
+                                            String name = sc.nextLine();
+                                            if(name.length() <= 2 ){
+                                                System.out.println("Error: Invalid driver ID.");
+                                                break;
+                                            }
+                                            System.out.print("Enter License ID: ");
+                                            String lic = sc.nextLine();
+                                            if(lic.length() <= 3){
+                                                System.out.println("Error: Invalid License ID");
+                                                break;
+                                            }
+
+                                            initializeDAO InitializeDAOO = new initializeDAO();
+
+                                            if(initializeDAO.registerDriver(dId, name, lic,"Driver", "IDLE")){
+                                                System.out.println("Driver registered successfully.");
+                                                break;
+                                            }
+                                            break;
+                                        case "3":
+                                            System.out.print("Enter route ID: ");
+                                            String rId = sc.nextLine();
+                                            if(rId.length() <= 3){
+                                                System.out.println("Error: Invalid route Id.");
+                                                break;
+                                            }
+                                            System.out.print("Enter Starting Point: ");
+                                            String orig = sc.nextLine();
+                                            if (orig.length() <= 3) {
+                                                System.out.println("Error: Cannot Identify starting point.");
+                                                break;
+                                            }
+                                            System.out.print("Enter Destination: ");
+                                            String dest = sc.nextLine();
+                                            if (dest.length() <= 3) {
+                                                System.out.println("Error: Cannot Identify destination point.");
+                                                break;
+                                            }
+                                            initializeDAO InitializeDAOOO = new initializeDAO();
+
+                                            if(initializeDAO.registerRoute(rId, orig, dest, "IDLE")){
+                                                System.out.println("Route registered sucessfully.");
+                                                break;
+                                            }
+
+
+
 
                                     }
+
                                     break;
                                 case "0":
                                     System.out.println("Logging out...");
@@ -127,8 +185,21 @@ public class Main {
                         }
                     }
                     break;
-
                 case "2":
+                    System.out.println("\n================================");
+                    System.out.println("            LOGIN STAFF");
+                    System.out.println("================================");
+                    System.out.print("Enter username: ");
+                    String loginuserr = sc.nextLine();
+                    System.out.print("Enter Password: ");
+                    String loginPasss = sc.nextLine();
+
+                    if (USER_DAO.login(loginuserr, loginPasss)) {
+                        System.out.println("Redirecting to Dashboard.");
+                    }
+                        break;
+
+                case "3":
                     System.out.println("\n================================");
                     System.out.println("            REGISTER");
                     System.out.println("================================");
@@ -234,7 +305,7 @@ public class Main {
                     }
                     break;
 
-                case "3":
+                case "4":
                     System.out.println("Exiting Program. Goodbye!");
                     System.exit(0);
                     break;

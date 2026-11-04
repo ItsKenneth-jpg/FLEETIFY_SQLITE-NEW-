@@ -18,4 +18,7 @@ public class DatabaseConnection {
     public static Connection getDriverConnection() throws SQLException {
         return DriverManager.getConnection(INITIALIZE_DB_URL);
     }
+    public static Connection getRouteConnection() throws  SQLException{
+        return DriverManager.getConnection(INITIALIZE_DB_URL);
+    }
 }
