@@ -42,6 +42,7 @@ public class Main {
                         System.out.println("Redirecting to Dashboard.");
 
                         dashboardLoop: while (true) {
+                            String currentLoggedInAdmin = loginuser;
                             System.out.println("\n========== FLEETIFY ==========");
                             System.out.println("[1] Register");
                             System.out.println("[2] Trips");
@@ -98,11 +99,6 @@ public class Main {
                                                 break;
                                             }
                                             try {
-
-
-
-
-
 
                                                 boolean savedToDb = initializeDAO.registerVehicle(vId, plate, cap, type,"IDLE");
 
@@ -171,86 +167,93 @@ public class Main {
                                             }
                                             break;
                                         case "4":
+                                            registerLoop: while (true){
+                                                System.out.println("\n========== Register User==========");
+                                                System.out.println("[1] Administrator");
+                                                System.out.println("[2] Transit Schedulers");
+                                                System.out.println("[3] Fleet Dispatchers");
+                                                System.out.println("[4] Human Resources");
+                                                System.out.println("[0] Return");
 
-                                            System.out.println("\n========== Register User==========");
-                                            System.out.println("[1] Administrator");
-                                            System.out.println("[2] Transit Schedulers");
-                                            System.out.println("[3] Fleet Dispatchers");
-                                            System.out.println("[4] Human Resources");
-                                            System.out.println("[0] Return");
+                                                System.out.print("Select an option: ");
+                                                String opt = sc.nextLine().trim();
 
-                                            System.out.print("Select an option: ");
-                                            String opt = sc.nextLine();
+                                                switch (opt){
+                                                    case "1":
+                                                        System.out.println("==========ADMINISTRATOR==========");
+                                                        System.out.print("Enter Username: ");
+                                                        String username = sc.nextLine();
+                                                        System.out.print("Enter Password: ");
+                                                        String password = sc.nextLine();
+                                                        System.out.print("Enter Security Code: ");
+                                                        String securityCode = sc.nextLine();
 
+                                                        adminDAO AdminDAO = new adminDAO();
 
-                                            switch (opt){
-                                                case "1":
-                                                    System.out.println("==========ADMINISTRATOR==========");
-                                                    System.out.print("Enter Username: ");
-                                                    String username = sc.nextLine();
-                                                    System.out.print("Enter Password: ");
-                                                    String password = sc.nextLine();
-                                                    System.out.print("Enter Security Code: ");
-                                                    String securityCode = sc.nextLine();
+                                                        if (AdminDAO.registerAdmin(username, password, securityCode)){
+                                                            System.out.println("Admin account registered Successful!");
+                                                            break;
 
-                                                    adminDAO AdminDAO = new adminDAO();
+                                                        }
+                                                        break;
+                                                    case "2":
+                                                        System.out.println("==========Transit Schedulers==========");
+                                                        System.out.print("Enter username: ");
+                                                        String usernamee = sc.nextLine();
+                                                        System.out.print("Enter password: ");
+                                                        String passwordd = sc.nextLine();
+                                                        System.out.print("Enter Security Code: ");
+                                                        String securityCodee = sc.nextLine();
 
-                                                    if (AdminDAO.registerAdmin(username, password, securityCode)){
-                                                        System.out.println("Admin account registered Successful!");
+                                                        UserDAO UserDAO = new UserDAO();
 
-                                                    }
-                                                    break;
-                                                case "2":
-                                                    System.out.println("==========Transit Schedulers==========");
-                                                    System.out.print("Enter username: ");
-                                                    String usernamee = sc.nextLine();
-                                                    System.out.print("Enter password: ");
-                                                    String passwordd = sc.nextLine();
-                                                    System.out.print("Enter Security Code: ");
-                                                    String securityCodee = sc.nextLine();
+                                                        if (UserDAO.registerUser(usernamee, passwordd, securityCodee, "Transit Scheduler")) {
+                                                            System.out.println("Account Successfully registered.");
+                                                            break;
+                                                        }
+                                                        break;
+                                                    case "3":
+                                                        System.out.println("==========Fleet Dispatchers==========");
+                                                        System.out.print("Enter username: ");
+                                                        String usernameee = sc.nextLine();
+                                                        System.out.print("Enter password: ");
+                                                        String passworddd = sc.nextLine();
+                                                        System.out.print("Enter Security Code: ");
+                                                        String securityCodeee = sc.nextLine();
 
-                                                    UserDAO UserDAO = new UserDAO();
+                                                        UserDAO UserDAOO = new UserDAO();
 
-                                                    if (UserDAO.registerUser(usernamee, passwordd, securityCodee, "Transit Scheduler")) {
-                                                        System.out.println("Account Successfully registered.");
-                                                    }
-                                                    break;
-                                                case "3":
-                                                    System.out.println("==========Fleet Dispatchers==========");
-                                                    System.out.print("Enter username: ");
-                                                    String usernameee = sc.nextLine();
-                                                    System.out.print("Enter password: ");
-                                                    String passworddd = sc.nextLine();
-                                                    System.out.print("Enter Security Code: ");
-                                                    String securityCodeee = sc.nextLine();
+                                                        if (UserDAOO.registerUser(usernameee, passworddd, securityCodeee, "Fleet Dispatcher")) {
+                                                            System.out.println("Account Successfully registered.");
+                                                            break;
+                                                        }
+                                                        break;
+                                                    case "4":
 
-                                                    UserDAO UserDAOO = new UserDAO();
+                                                        System.out.println("==========Human Resources==========");
+                                                        System.out.print("Enter Username: ");
+                                                        String usernameeee = sc.nextLine();
+                                                        System.out.print("Enter Password: ");
+                                                        String passwordddd = sc.nextLine();
+                                                        System.out.print("Enter Security Code: ");
+                                                        String securityCodeeee = sc.nextLine();
 
-                                                    if (UserDAOO.registerUser(usernameee, passworddd, securityCodeee, "Fleet Dispatcher")) {
-                                                        System.out.println("Account Successfully registered.");
-                                                    }
-                                                    break;
-                                                case "4":
-                                                    System.out.println("==========Human Resources==========");
-                                                    System.out.print("Enter Username: ");
-                                                    String usernameeee = sc.nextLine();
-                                                    System.out.print("Enter Password: ");
-                                                    String passwordddd = sc.nextLine();
-                                                    System.out.println("Enter Security Code: ");
-                                                    String securityCodeeee = sc.nextLine();
+                                                        UserDAO UserDAOOO = new UserDAO();
 
-                                                    UserDAO UserDAOOO = new UserDAO();
+                                                        if(UserDAOOO.registerUser(usernameeee, passwordddd, securityCodeeee, "Human Resources")){
+                                                            System.out.println("Account Successfully registered.");
+                                                            break;
+                                                        }
+                                                        break;
+                                                    case "0":
+                                                        System.out.println("Returning...");
+                                                        break registerLoop;
+                                                    default:
+                                                        System.out.println("Error: Invalid Choice!");
 
-                                                    if(UserDAOOO.registerUser(usernameeee, passwordddd, securityCodeeee, "Human Resources")){
-                                                        System.out.println("Account Sucessfuly registered.");
-                                                    }
-                                                    break;
-                                                case "0":
-                                                    System.out.println("Returning...");
-                                                    break;
+                                                        break;
 
-
-
+                                                }
                                             }
 
                                             break;
@@ -259,15 +262,156 @@ public class Main {
                                             System.out.println("Returning...");
                                             break;
 
-
-
-
                                     }
 
                                     break;
+                                case "2":
+
+                                    break;
+                                case "3":
+                                    UserDAO viewDaoo = new UserDAO();
+                                    viewDaoo.displayAllUsers();
+
+                                    break;
+                                case "4":
+                                    System.out.println("[1] Update User Status");
+                                    System.out.println("[0] Return");
+                                    System.out.print("Select an option: ");
+
+                                    String updateChoice = sc.nextLine().trim();
+
+                                    switch(updateChoice){
+                                        case "1":
+                                        System.out.println("\n========== UPDATE USER STATUS ==========");
+                                            System.out.println("[1] STAFF");
+                                            System.out.println("[2] ADMIN");
+                                            System.out.print("Enter Option: ");
+                                            String Updatechoicee = sc.nextLine().trim();
+
+                                            switch(Updatechoicee){
+                                                case "1":
+                                                    System.out.println("\n========== UPDATE STAFF STATUS ==========");
+
+                                                    UserDAO viewDao = new UserDAO();
+                                                    viewDao.displayAllUsers();
+
+
+                                                    String targetUserr = "";
+
+                                                    while (true) {
+                                                        System.out.print("Enter username to update: ");
+                                                        targetUserr = sc.nextLine().trim();
+
+                                                        if (viewDao.isUserExists(targetUserr)) {
+                                                            break; // Username exists! Exit the loop and proceed.
+                                                        } else {
+                                                            System.out.println("Error: Username '" + targetUserr + "' does not exist in the database. Please try again.");
+                                                        }
+                                                    }
+
+// 1. Role Validation Loop
+                                                    String newRole = "";
+                                                    while (true) {
+
+                                                        System.out.println("==========ROLES==========");
+                                                        System.out.println(" Transit Schedulers");
+                                                        System.out.println(" Fleet Dispatchers");
+                                                        System.out.println(" Human Resources");
+                                                        System.out.println("=========================");
+
+                                                        System.out.print("Enter new role: ");
+                                                        newRole = sc.nextLine().trim();
+
+                                                        // Use .equalsIgnoreCase() and check if it matches valid options
+                                                        if (newRole.equalsIgnoreCase("Transit Scheduler") ||
+                                                                newRole.equalsIgnoreCase("Fleet Dispatcher") ||
+                                                                newRole.equalsIgnoreCase("Human Resources") ||
+                                                                newRole.equalsIgnoreCase("Human Resource")) {
+                                                            break; // Valid role! Exit loop.
+                                                        } else {
+                                                            System.out.println("Error: Invalid role. Please try again.");
+                                                        }
+                                                    }
+
+// 2. Status Validation Loop
+                                                    String newStatus = "";
+                                                    while (true) {
+                                                        System.out.println("[1] Set ACTIVE");
+                                                        System.out.println("[2] Set INACTIVE");
+                                                        System.out.print("Select status choice: ");
+                                                        String statusChoice = sc.nextLine().trim();
+
+                                                        if (statusChoice.equals("1")) {
+                                                            newStatus = "ACTIVE";
+                                                            break; // Valid status! Exit loop.
+                                                        } else if (statusChoice.equals("2")) {
+                                                            newStatus = "INACTIVE";
+                                                            break; // Valid status! Exit loop.
+                                                        } else {
+                                                            System.out.println("Error: Invalid status option. Please enter 1 or 2.");
+                                                        }
+                                                    }
+
+
+                                                    UserDAO statusDao = new UserDAO();
+
+                                                    if (statusDao.updateUser(targetUserr, newRole, newStatus)) {
+                                                        System.out.println("Success! User '" + targetUserr + "' updated to Role: [" + newRole + "] and Status: [" + newStatus + "].");
+                                                    } else {
+                                                        System.out.println("Failed to update. Double-check that the username '" + targetUserr + "' exists in your database.");
+                                                    }
+                                                    break;
+                                                case "2":
+                                                    System.out.println("\n========== UPDATE ADMIN STATUS ==========");
+
+                                                    adminDAO viewDaooo = new adminDAO();
+                                                    viewDaooo.displayAllUsers();
+
+                                                    System.out.print("Enter username to update: ");
+                                                    String targetUserrr = sc.nextLine().trim();
+
+                                                    if (targetUserrr.equalsIgnoreCase(currentLoggedInAdmin)) {
+                                                        System.out.println("Error: You cannot modify or deactivate your own active account!");
+                                                        break; // Stops the update process right here
+                                                    }
+
+                                                    System.out.println("[1] SET ACTIVE");
+                                                    System.out.println("[2] SET INACTIVE");
+                                                    System.out.print("Enter Option: ");
+                                                    String statuss = sc.nextLine().trim();
+
+                                                    String statusss = "";
+                                                    if (statuss.equals("1")) {
+                                                        statusss = "ACTIVE";
+                                                    } else if (statuss.equals("2")) {
+                                                        statusss = "INACTIVE";
+                                                    } else {
+                                                        System.out.println("Error: Invalid status selection.");
+                                                        break;
+                                                    }
+
+                                                    adminDAO statusDaoo = new adminDAO();
+
+
+                                                    if (statusDaoo.updateAdmin(targetUserrr, statusss    )) {
+                                                        System.out.println("User '" + targetUserrr + "' successfully updated to " + statusss + "!");
+                                                    }
+
+                                                    else
+                                                    {
+                                                        System.out.println("Failed to update. Username may not exist in the database.");
+                                                    }
+                                                    break;
+                                            }
+
+
+
+                                        break;
+                                    }
+
                                 case "0":
-                                    System.out.println("Logging out...");
-                                    break dashboardLoop;
+                                    System.out.println("Returning...");
+                                    break;
                                 default:
                                     System.out.println("Invalid dashboard option.");
                                     break;

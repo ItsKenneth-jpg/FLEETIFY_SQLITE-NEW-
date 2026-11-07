@@ -1,9 +1,6 @@
 package com.scc.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class UserDAO {
 
@@ -64,4 +61,79 @@ public class UserDAO {
 
         return false;
     }
+    public boolean updateUser (String username,String newRole, String newStatus){
+        String updatesql = "UPDATE user SET role = ?, status = ? WHERE username = ?";
+
+        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:users.db");
+             PreparedStatement pstmt = conn.prepareStatement(updatesql)){
+
+            pstmt.setString(1, newRole);
+            pstmt.setString(2, newStatus);
+            pstmt.setString(3, username);
+
+            // pstmt.executeUpdate() returns the number of rows changed
+            int rowsAffected = pstmt.executeUpdate();
+
+            // If rowsAffected > 0, it means the username existed and was successfully updated!
+            return rowsAffected > 0;
+
+        } catch(SQLException e) {
+            System.out.println("Error updating user status: " + e.getMessage());
+            return false;
+        }
+    }
+    public void displayAllUsers() {
+        String sql = "SELECT id, username, securityCode, role, status FROM user";
+
+        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:users.db");
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+
+            System.out.println("\n=====================================================================================");
+            System.out.println("                               REGISTERED USERS LIST                                 ");
+            System.out.println("=====================================================================================");
+            // Formatted header matching your 5 columns
+            System.out.printf("%-5s | %-18s | %-16s | %-20s | %-10s\n", "ID", "Username", "Security Code", "Role", "Status");
+            System.out.println("-------------------------------------------------------------------------------------");
+
+            boolean hasUsers = false;
+            while (rs.next()) {
+                hasUsers = true;
+                System.out.printf("%-5s | %-18s | %-16s | %-20s | %-10s\n",
+                        rs.getString("id"),
+                        rs.getString("username"),
+                        rs.getString("securityCode"), // Matches your exact column name
+                        rs.getString("role"),
+                        rs.getString("status")
+                );
+            }
+
+            if (!hasUsers) {
+                System.out.println("No users found in the database.");
+            }
+            System.out.println("=====================================================================================");
+
+        } catch (SQLException e) {
+            System.out.println("Error displaying users: " + e.getMessage());
+        }
+    }
+    public boolean isUserExists(String username) {
+        String sql = "SELECT COUNT(*) FROM user WHERE username = ?";
+
+        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:users.db");
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt(1) > 0; // Returns true if count is greater than 0
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error checking user: " + e.getMessage());
+        }
+        return false;
+    }
+
 }
