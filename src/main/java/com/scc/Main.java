@@ -7,7 +7,7 @@ import com.scc.dao.initializeDAO;
 import java.util.Scanner;
 
 public class Main {
-    // Use a single shared Scanner for everything
+    //  single shared Scanner for everything
     private static final Scanner sc = new Scanner(System.in);
     private static final adminDAO ADMIN_DAO = new adminDAO();
     private static final UserDAO USER_DAO = new UserDAO();
@@ -59,8 +59,9 @@ public class Main {
                                     System.out.println("[2] Register Driver");
                                     System.out.println("[3] Register Route");
                                     System.out.println("[4] Register User");
+                                    System.out.println("[0] Return");
 
-                                    System.out.println("Select an option: ");
+                                    System.out.print("Select an option: ");
                                     String choiceee = sc.nextLine().trim();
 
                                     switch (choiceee){
@@ -168,6 +169,95 @@ public class Main {
                                                 System.out.println("Route registered sucessfully.");
                                                 break;
                                             }
+                                            break;
+                                        case "4":
+
+                                            System.out.println("\n========== Register User==========");
+                                            System.out.println("[1] Administrator");
+                                            System.out.println("[2] Transit Schedulers");
+                                            System.out.println("[3] Fleet Dispatchers");
+                                            System.out.println("[4] Human Resources");
+                                            System.out.println("[0] Return");
+
+                                            System.out.print("Select an option: ");
+                                            String opt = sc.nextLine();
+
+
+                                            switch (opt){
+                                                case "1":
+                                                    System.out.println("==========ADMINISTRATOR==========");
+                                                    System.out.print("Enter Username: ");
+                                                    String username = sc.nextLine();
+                                                    System.out.print("Enter Password: ");
+                                                    String password = sc.nextLine();
+                                                    System.out.print("Enter Security Code: ");
+                                                    String securityCode = sc.nextLine();
+
+                                                    adminDAO AdminDAO = new adminDAO();
+
+                                                    if (AdminDAO.registerAdmin(username, password, securityCode)){
+                                                        System.out.println("Admin account registered Successful!");
+
+                                                    }
+                                                    break;
+                                                case "2":
+                                                    System.out.println("==========Transit Schedulers==========");
+                                                    System.out.print("Enter username: ");
+                                                    String usernamee = sc.nextLine();
+                                                    System.out.print("Enter password: ");
+                                                    String passwordd = sc.nextLine();
+                                                    System.out.print("Enter Security Code: ");
+                                                    String securityCodee = sc.nextLine();
+
+                                                    UserDAO UserDAO = new UserDAO();
+
+                                                    if (UserDAO.registerUser(usernamee, passwordd, securityCodee, "Transit Scheduler")) {
+                                                        System.out.println("Account Successfully registered.");
+                                                    }
+                                                    break;
+                                                case "3":
+                                                    System.out.println("==========Fleet Dispatchers==========");
+                                                    System.out.print("Enter username: ");
+                                                    String usernameee = sc.nextLine();
+                                                    System.out.print("Enter password: ");
+                                                    String passworddd = sc.nextLine();
+                                                    System.out.print("Enter Security Code: ");
+                                                    String securityCodeee = sc.nextLine();
+
+                                                    UserDAO UserDAOO = new UserDAO();
+
+                                                    if (UserDAOO.registerUser(usernameee, passworddd, securityCodeee, "Fleet Dispatcher")) {
+                                                        System.out.println("Account Successfully registered.");
+                                                    }
+                                                    break;
+                                                case "4":
+                                                    System.out.println("==========Human Resources==========");
+                                                    System.out.print("Enter Username: ");
+                                                    String usernameeee = sc.nextLine();
+                                                    System.out.print("Enter Password: ");
+                                                    String passwordddd = sc.nextLine();
+                                                    System.out.println("Enter Security Code: ");
+                                                    String securityCodeeee = sc.nextLine();
+
+                                                    UserDAO UserDAOOO = new UserDAO();
+
+                                                    if(UserDAOOO.registerUser(usernameeee, passwordddd, securityCodeeee, "Human Resources")){
+                                                        System.out.println("Account Sucessfuly registered.");
+                                                    }
+                                                    break;
+                                                case "0":
+                                                    System.out.println("Returning...");
+                                                    break;
+
+
+
+                                            }
+
+                                            break;
+
+                                        case "0":
+                                            System.out.println("Returning...");
+                                            break;
 
 
 
@@ -177,7 +267,7 @@ public class Main {
                                     break;
                                 case "0":
                                     System.out.println("Logging out...");
-                                    break dashboardLoop; // Breaks out of the dashboard loop back to main menu
+                                    break dashboardLoop;
                                 default:
                                     System.out.println("Invalid dashboard option.");
                                     break;
