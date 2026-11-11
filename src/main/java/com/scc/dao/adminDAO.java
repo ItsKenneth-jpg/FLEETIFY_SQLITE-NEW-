@@ -56,7 +56,7 @@ public class adminDAO {
             System.out.println("Database Error checking admin: " + e.getMessage());
         }
 
-        // --- STEP 2: If not found in admin, check the USERS table ---
+
         String userSql = "SELECT * FROM user WHERE username = ? AND password = ?";
 
         try (Connection conn = DatabaseConnection.getUserConnection();

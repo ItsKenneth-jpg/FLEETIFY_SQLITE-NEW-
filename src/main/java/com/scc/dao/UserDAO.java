@@ -53,7 +53,7 @@ public class UserDAO {
                 }
             }
         } catch (SQLException e) {
-            System.out.println("Database Error checking admin: " + e.getMessage());
+            System.out.println("Database Error checking User: " + e.getMessage());
             return false;
         }
 
@@ -134,6 +134,33 @@ public class UserDAO {
             System.out.println("Error checking user: " + e.getMessage());
         }
         return false;
+    }
+    public String role(String username, String password){
+        String role = null;
+        String query = "SELECT role FROM user WHERE username = ? AND password = ? ";
+
+        try (Connection conn = DriverManager.getConnection("jdbc:sqlite:users.db");
+        PreparedStatement pstmt = conn.prepareStatement((query))){
+
+            pstmt.setString(1, username);
+            pstmt.setString(2, password);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                if (rs.next()) {
+                    role = rs.getString("role"); // Only set if user exists
+                }
+            }
+
+
+        }
+        catch (SQLException e){
+            System.out.println("Database Error!" + e.getMessage());
+
+
+
+        }
+        return role;
+
     }
 
 }

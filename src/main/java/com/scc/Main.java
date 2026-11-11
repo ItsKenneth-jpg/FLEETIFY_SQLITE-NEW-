@@ -266,6 +266,52 @@ public class Main {
 
                                     break;
                                 case "2":
+                                    System.out.println("\n================================");
+                                    System.out.println("            Trips");
+                                    System.out.println("================================");
+                                    System.out.println("[1] Schedule Trip");
+                                    System.out.println("[0] Return ");
+
+                                    System.out.print("Enter Choice: ");
+                                    String option = sc.nextLine();
+
+                                    switch (option){
+                                        case "1":
+
+                                            initializeDAO vehicleDAO = new initializeDAO();
+                                            vehicleDAO.displayvehicle();
+                                            System.out.println("[0] Return");
+                                            System.out.print("Enter Vehicle ID:");
+
+                                            String vehicle = sc.nextLine();
+
+                                            if(vehicle.equals("0")){
+                                                System.out.println("returning...");
+                                                break;
+                                            }
+
+                                            initializeDAO driverDAO = new initializeDAO();
+                                            vehicleDAO.displaydriver();
+                                            System.out.println("[0] Return");
+                                            System.out.print("Assign Driver:  ");
+
+                                            String driver = sc.nextLine();
+
+                                            if(driver.equals("0")){
+                                                System.out.println("Returning...");
+                                                break;
+                                            }
+
+
+
+                                            break;
+                                        case "2":
+                                            System.out.println("Returning...");
+                                            break;
+                                        default:
+                                            System.out.println("Error: Invalid option.");
+                                            break;
+                                    }
 
                                     break;
                                 case "3":
@@ -303,7 +349,7 @@ public class Main {
                                                         targetUserr = sc.nextLine().trim();
 
                                                         if (viewDao.isUserExists(targetUserr)) {
-                                                            break; // Username exists! Exit the loop and proceed.
+                                                            break;
                                                         } else {
                                                             System.out.println("Error: Username '" + targetUserr + "' does not exist in the database. Please try again.");
                                                         }
@@ -418,8 +464,12 @@ public class Main {
                             }
                         }
                     }
+
                     break;
                 case "2":
+
+                    boolean loggedIn = true;
+
                     System.out.println("\n================================");
                     System.out.println("            LOGIN STAFF");
                     System.out.println("================================");
@@ -428,9 +478,98 @@ public class Main {
                     System.out.print("Enter Password: ");
                     String loginPasss = sc.nextLine();
 
-                    if (USER_DAO.login(loginuserr, loginPasss)) {
+                    UserDAO userDAO = new UserDAO();
+                    String rolee =  userDAO.role(loginuserr, loginPasss);
+
+                    if (rolee != null) {
                         System.out.println("Redirecting to Dashboard.");
-                    }
+
+                        if(rolee.equalsIgnoreCase("Transit Scheduler")){
+                            System.out.println("Welcome back, "+ loginuserr +"!");
+
+                            while (loggedIn)
+                            {
+                                System.out.println("\n================================");
+                                System.out.println("      Transit Schedulers");
+                                System.out.println("================================");
+                                System.out.println("[1] Register route");
+                                System.out.println("[2] Schedule");
+                                System.out.println("[3] View");
+                                System.out.println("[0] Logout");
+
+                                System.out.print("Enter choice: ");
+                                String option = sc.nextLine();
+
+                                switch (option){
+                                    case "1":
+                                        System.out.println("\n================================");
+                                        System.out.println("       Register Route");
+                                        System.out.println("================================");
+                                        System.out.println("[1] Register");
+                                        System.out.println("[0] Return");
+                                        System.out.print("Enter option: ");
+
+                                        String choicee = sc.nextLine();
+
+                                        switch (choicee){
+                                            case "1":
+                                                System.out.print("Enter route ID: ");
+                                                String rId = sc.nextLine();
+                                                if(rId.length() <= 3){
+                                                    System.out.println("Error: Invalid route Id.");
+                                                    break;
+                                                }
+                                                System.out.print("Enter Starting Point: ");
+                                                String orig = sc.nextLine();
+                                                if (orig.length() <= 3) {
+                                                    System.out.println("Error: Cannot Identify starting point.");
+                                                    break;
+                                                }
+                                                System.out.print("Enter Destination: ");
+                                                String dest = sc.nextLine();
+                                                if (dest.length() <= 3) {
+                                                    System.out.println("Error: Cannot Identify destination point.");
+                                                    break;
+                                                }
+                                                initializeDAO InitializeDAOOO = new initializeDAO();
+
+                                                if(initializeDAO.registerRoute(rId, orig, dest, "IDLE")){
+                                                    System.out.println("Route registered sucessfully.");
+                                                    break;
+                                                }
+                                                break;
+                                            case "2":
+                                                System.out.println("Returning...");
+                                                loggedIn = false;
+                                                break;
+                                        }
+
+
+
+                                        break;
+                                    case "2":
+                                        break;
+                                    case "3":
+                                        break;
+                                    case "0":
+                                        System.out.println("Logging out...");
+                                        loggedIn = false;
+                                        break;
+                                    default:
+                                        System.out.println("Error: Invalid Option.");
+                                        break;
+                                }
+
+                            }
+
+                        }
+                        else {
+
+                            System.out.println("Error: Account not exist.");
+
+                        }
+                            }
+
                         break;
 
                 case "3":
@@ -507,6 +646,7 @@ public class Main {
                                     if (UserDAOO.registerUser(usernameee, passworddd, securityCodeee, "Fleet Dispatcher")) {
                                         System.out.println("Account Successfully registered.");
                                     }
+
                                     break;
 
                                 case "3":
